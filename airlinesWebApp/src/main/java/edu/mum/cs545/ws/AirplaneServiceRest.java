@@ -3,6 +3,7 @@ package edu.mum.cs545.ws;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cs545.airline.model.Airline;
 import cs545.airline.model.Airplane;
 import cs545.airline.model.Airport;
 import cs545.airline.model.Flight;
@@ -26,7 +27,6 @@ public class AirplaneServiceRest {
     ObjectMapper mapper = new ObjectMapper();
 
     //verified and it works
-    @Path("create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -40,7 +40,6 @@ public class AirplaneServiceRest {
     }
 
     //verified and it works
-    @Path("getall")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
@@ -51,12 +50,13 @@ public class AirplaneServiceRest {
         }
     }
 
-    @Path("delete")
+    //verified and it works
+    @Path("/{serialNumber}")
     @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String delete(Airplane airplane) {
+    public String delete(@PathParam("serialNumber") String serialNumber) {
         try {
+            Airplane airplane = service.findBySrlnr(serialNumber);
             service.delete(airplane);
             return mapper.writeValueAsString("Airplane deleted!");
         } catch (Exception ex) {

@@ -27,7 +27,6 @@ public class FlightServiceRest {
     //Jackson Mapper for Conversion of Java OBJs to JSON String
     ObjectMapper mapper = new ObjectMapper();
 
-    @Path("getall")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
@@ -41,8 +40,6 @@ public class FlightServiceRest {
     private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,
             Locale.US);
 
-    //verified and it works
-    @Path("create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,7 +66,6 @@ public class FlightServiceRest {
         }
     }
 
-    @Path("update")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

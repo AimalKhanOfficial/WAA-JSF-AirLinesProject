@@ -24,7 +24,6 @@ public class AirlineServiceRest {
     ObjectMapper mapper = new ObjectMapper();
 
     //verified and it works
-    @Path("getall")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
@@ -36,7 +35,6 @@ public class AirlineServiceRest {
     }
 
     //verified and it works
-    @Path("create")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -63,7 +61,6 @@ public class AirlineServiceRest {
     }
 
     //verified and it works
-    @Path("update")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -75,14 +72,13 @@ public class AirlineServiceRest {
             return "Something went wrong, try again later!";
         }
     }
-
-    @Path("delete")
+    //verified and it works
+    @Path("/{name}")
     @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String delete(Airline airline) {
+    public String delete(@PathParam("name") String name) {
         try {
-            service.delete(airline);
+            service.delete(service.findByName(name));
             return mapper.writeValueAsString("Airline deleted!");
         } catch (Exception ex) {
             return "Something went wrong, try again later!";

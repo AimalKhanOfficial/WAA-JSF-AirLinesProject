@@ -3,9 +3,13 @@ package edu.mum.cs545.ws;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cs545.airline.model.Airline;
+import cs545.airline.model.Airplane;
 import cs545.airline.model.Airport;
 import cs545.airline.model.Flight;
 import cs545.airline.service.AirlineService;
+import cs545.airline.service.AirplaneService;
+import cs545.airline.service.AirportService;
+import edu.mum.cs545.dto.AirlineCreationRequest;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +22,12 @@ public class AirlineServiceRest {
 
     @Inject
     AirlineService service;
+
+    @Inject
+    AirportService airportService;
+
+    @Inject
+    AirplaneService airplaneService;
 
     //Aimal Khan
     //Jackson Mapper for Conversion of Java OBJs to JSON String
@@ -38,9 +48,33 @@ public class AirlineServiceRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String create(Airline airline) {
+    public String create(AirlineCreationRequest airline) {
         try {
-            service.create(airline);
+            //service.create(airline);
+
+            Airport origin = airportService.findByName(airline.getOriginName()).get(0);
+            Airport destination = airportService.findByName(airline.getDestinationName()).get(0);
+
+            Airplane airplane = airplaneService.findBySrlnr(airline.getSerialNumberAirPlane());
+
+            Flight flight = new Flight();
+            flight.setArrivalDate(airline.getArrivalDate());
+            flight.setArrivalTime(airline.getArrivalTime());
+            flight.setDepartureDate(airline.getDepartureDate());
+            flight.setDepartureTime(airline.getDepartureTime());
+
+            flight.setFlightnr(airline.getFlightnr());
+
+            flight.setOrigin(origin);
+            flight.setDestination(destination);
+
+            flight.setAirplane(airplane);
+
+            Airline airlineObj = new Airline();
+            airlineObj.setName(airlineObj.getName());
+            airlineObj.addFlight(flight);
+
+            service.create(airlineObj);
             return mapper.writeValueAsString("Airline Created!");
         } catch (Exception ex) {
             return "Something went wrong, try again later!";

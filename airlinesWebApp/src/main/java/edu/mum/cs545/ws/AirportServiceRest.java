@@ -96,7 +96,6 @@ public class AirportServiceRest {
     //verified and it works
     @Path("findbycode/{airportCode}")
     @GET
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String findbycode(@PathParam("airportCode") String airportCode) {
         try {

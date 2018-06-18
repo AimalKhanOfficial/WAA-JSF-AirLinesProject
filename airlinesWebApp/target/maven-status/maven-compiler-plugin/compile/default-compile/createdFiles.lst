@@ -1,4 +1,5 @@
 cs545\airline\model\Airplane.class
+edu\mum\cs545\ws\FlightServiceRest.class
 edu\mum\cs545\test\TestFlightService.class
 edu\mum\cs545\ws\AirplaneServiceRest.class
 cs545\airline\service\FlightService.class

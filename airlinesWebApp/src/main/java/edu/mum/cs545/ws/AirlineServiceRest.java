@@ -10,6 +10,7 @@ import cs545.airline.service.AirlineService;
 import cs545.airline.service.AirplaneService;
 import cs545.airline.service.AirportService;
 import edu.mum.cs545.dto.AirlineCreationRequest;
+import edu.mum.cs545.dto.FlightCreationDetail;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,31 +56,30 @@ public class AirlineServiceRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String create(AirlineCreationRequest airline) {
+    public String create(AirlineCreationRequest airlineReq) {
         try {
-            //service.create(airline);
-
-            Airport origin = airportService.findByName(airline.getOriginName()).get(0);
-            Airport destination = airportService.findByName(airline.getDestinationName()).get(0);
-
-            Airplane airplane = airplaneService.findBySrlnr(airline.getSerialNumberAirPlane());
-
-            Flight flight = new Flight();
-            flight.setArrivalDate(airline.getArrivalDate());
-            flight.setArrivalTime(airline.getArrivalTime());
-            flight.setDepartureDate(airline.getDepartureDate());
-            flight.setDepartureTime(airline.getDepartureTime());
-
-            flight.setFlightnr(airline.getFlightnr());
-
-            flight.setOrigin(origin);
-            flight.setDestination(destination);
-
-            flight.setAirplane(airplane);
-
             Airline airlineObj = new Airline();
-            airlineObj.setName(airline.getAirlineName());
-            airlineObj.addFlight(flight);
+            airlineObj.setName(airlineReq.getAirlineName());
+
+            for(FlightCreationDetail airline : airlineReq.getFlightCreationDetails()){
+                Airport origin = airportService.findByName(airline.getOriginName()).get(0);
+                Airport destination = airportService.findByName(airline.getDestinationName()).get(0);
+
+                Airplane airplane = airplaneService.findBySrlnr(airline.getSerialNumberAirPlane());
+
+                Flight flight = new Flight();
+                flight.setArrivalDate(airline.getArrivalDate());
+                flight.setArrivalTime(airline.getArrivalTime());
+                flight.setDepartureDate(airline.getDepartureDate());
+                flight.setDepartureTime(airline.getDepartureTime());
+
+                flight.setFlightnr(airline.getFlightnr());
+                flight.setOrigin(origin);
+                flight.setDestination(destination);
+
+                flight.setAirplane(airplane);
+                airlineObj.addFlight(flight);
+            }
 
             service.create(airlineObj);
             return mapper.writeValueAsString("Airline Created!");
@@ -127,11 +127,10 @@ public class AirlineServiceRest {
     }
 
     //verified and it works
-    @Path("findbyname")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("findbyname/{airlienName}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbyname(String airlineName) {
+    public String findbyname(@PathParam("airlienName") String airlineName) {
         try {
             return mapper.writeValueAsString(service.findByName(airlineName));
         } catch (Exception ex) {

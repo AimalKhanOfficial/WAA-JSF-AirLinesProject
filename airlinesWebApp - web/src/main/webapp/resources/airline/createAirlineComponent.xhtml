@@ -1,0 +1,38 @@
+<!-- 
+* @author Prakash Rai 
+* Created On: June 19, 2018 
+* Description: Composite component for create component view
+ -->
+
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="airlineNameLabel" />
+	<composite:attribute name="airlineNameValue" />
+	<composite:attribute name="airlineButtonLabel" />
+	<composite:attribute name="airlineAddButtonAction"
+		method-signature="java.lang.String action()" />
+</composite:interface>
+
+<composite:implementation>
+	<h:form class="form-inline">
+		<h:message for="loginPanel" style="color:red;" />
+
+		<div class="form-group mb-2">
+			<h:outputLabel for="aName">#{cc.attrs.airlineNameLabel}  </h:outputLabel>
+		</div>
+		<div class="form-group mx-sm-3 mb-2">
+			<h:inputText id="name" value="#{cc.attrs.airlineNameValue}" class="form-control"/>
+		</div>
+		<h:commandButton action="#{cc.attrs.airlineAddButtonAction}"
+			value="#{cc.attrs.airlineButtonLabel}" class="btn btn-primary mb-2" />
+	</h:form>
+</composite:implementation>
+</html>

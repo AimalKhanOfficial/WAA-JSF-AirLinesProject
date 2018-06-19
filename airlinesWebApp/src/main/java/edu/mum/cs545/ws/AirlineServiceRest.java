@@ -127,11 +127,10 @@ public class AirlineServiceRest {
     }
 
     //verified and it works
-    @Path("findbyname")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("findbyname/{airlienName}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbyname(String airlineName) {
+    public String findbyname(@PathParam("airlienName") String airlineName) {
         try {
             return mapper.writeValueAsString(service.findByName(airlineName));
         } catch (Exception ex) {

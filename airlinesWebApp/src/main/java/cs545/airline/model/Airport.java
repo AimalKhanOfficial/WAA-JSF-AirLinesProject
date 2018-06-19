@@ -1,5 +1,7 @@
 package cs545.airline.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Airport {
 	@OneToMany(mappedBy = "destination", cascade= CascadeType.ALL)
 	@OrderBy("arrivalDate, arrivalTime")
 	private List<Flight> arrivals = new ArrayList<>();
+	@JsonManagedReference
 	@OneToMany(mappedBy = "origin", cascade= CascadeType.ALL)
 	@OrderBy("departureDate, departureTime")
 	private List<Flight> departures = new ArrayList<>();

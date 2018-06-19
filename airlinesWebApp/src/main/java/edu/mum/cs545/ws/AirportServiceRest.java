@@ -126,15 +126,11 @@ public class AirportServiceRest {
         }
     }
 
-
-    //verified and it works with Get, but what if there is a space in city name?
-    //Need to make it post
     //verified and it works
-    @Path("findbycity")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("findbycity/{cityName}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbycity(String cityName) {
+    public String findbycity(@PathParam("cityName") String cityName) {
         try {
             return mapper.writeValueAsString(service.findByCity(cityName));
         } catch (Exception ex) {
@@ -143,11 +139,10 @@ public class AirportServiceRest {
     }
 
     //verified and it works
-    @Path("findbycountry")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("findbycountry/{countryName}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbycountry(String countryName) {
+    public String findbycountry(@PathParam("countryName")String countryName) {
         try {
             return mapper.writeValueAsString(service.findByCountry(countryName));
         } catch (Exception ex) {
@@ -156,11 +151,10 @@ public class AirportServiceRest {
     }
 
     //verified and it works
-    @Path("findbyname")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("findbyname/{airportName}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbyname(String airportName) {
+    public String findbyname(@PathParam("airportName") String airportName) {
         try {
             return mapper.writeValueAsString(service.findByName(airportName));
         } catch (Exception ex) {

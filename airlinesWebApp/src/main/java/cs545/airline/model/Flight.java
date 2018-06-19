@@ -31,8 +31,10 @@ public class Flight {
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airline airline;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airport origin;
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Airport destination;
 	@ManyToOne(cascade = CascadeType.PERSIST)

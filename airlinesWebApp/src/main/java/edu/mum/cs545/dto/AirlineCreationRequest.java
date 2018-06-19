@@ -10,14 +10,6 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 public class AirlineCreationRequest {
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getFlightnr() {
         return flightnr;
     }
@@ -90,7 +82,6 @@ public class AirlineCreationRequest {
         this.serialNumberAirPlane = serialNumberAirPlane;
     }
 
-    private String name;
     private String flightnr;
     private String departureDate;
     private String departureTime;

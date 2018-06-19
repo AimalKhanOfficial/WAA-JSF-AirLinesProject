@@ -15,6 +15,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @Named
 @Path("airline")
@@ -33,12 +36,16 @@ public class AirlineServiceRest {
     //Jackson Mapper for Conversion of Java OBJs to JSON String
     ObjectMapper mapper = new ObjectMapper();
 
+    private static DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT,
+            Locale.US);
+
     //verified and it works
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
         try {
             return mapper.writeValueAsString(service.findAll());
+
         } catch (JsonProcessingException e) {
             return e.getMessage();
         }
@@ -71,7 +78,7 @@ public class AirlineServiceRest {
             flight.setAirplane(airplane);
 
             Airline airlineObj = new Airline();
-            airlineObj.setName(airlineObj.getName());
+            airlineObj.setName(airline.getAirlineName());
             airlineObj.addFlight(flight);
 
             service.create(airlineObj);

@@ -24,56 +24,68 @@ public class AirlineBean implements Serializable {
 
 	@Inject
 	private AirlineService airlineService;
-	private Airline airline=new Airline("Emirates");
+	private Airline airline = new Airline();
 	private List<Airline>airlines=new ArrayList<>();
-	private long airlineId;
 
-	public String edit(long id) {
-		System.out.println("<------------------Edit Airline------------------->");
-//		this.airline.setId(id);
-//		Airline obj = this.airlineService.find(this.airline);
-//		obj.setName(this.airline.getName());
-//		System.out.println("Id : " + obj.getId() + ", Airline : " + obj.getName());
-//		this.airlineService.update(obj);
+	/*
+	 * Method to edit airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
+	public String edit(Airline airline) {
+		this.airlineService.update(airline);
 		return "airlines";
 	}
 	
+	/*
+	 * Method to delete airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
+	public String delete(long id) {
+		Airline airline = this.airlineService.findById(id);
+		this.airlineService.delete(airline);
+		return "airlines";
+	}
+	
+	/*
+	 * Method to create airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
 	public String create() {
-		System.out.println("<------------------Create Airline------------------->");
 		this.airlineService.create(airline);
+		this.airline = new Airline();
 		return "airlines";
 	}
 	
-	public AirlineService getAirlineService() {
-		return airlineService;
-	}
-
-	public void setAirlineService(AirlineService airlineService) {
-		this.airlineService = airlineService;
-	}
-
+	/*
+	 * airline getter
+	*/
 	public Airline getAirline() {
 		return airline;
 	}
 
+	/*
+	 * airline setter
+	*/
 	public void setAirline(Airline airline) {
 		this.airline = airline;
 	}
 
+	/*
+	 * airline list getter
+	*/
 	public List<Airline> getAirlines() {
 		airlines=airlineService.findAll();
 		return airlines;
 	}
 
+	/*
+	 * airline list setter
+	*/
 	public void setAirlines(List<Airline> airlines) {
 		this.airlines = airlines;
 	}
 
-	public long getAirlineId() {
-		return airlineId;
-	}
-
-	public void setAirlineId(long airlineId) {
-		this.airlineId = airlineId;
-	}
 }

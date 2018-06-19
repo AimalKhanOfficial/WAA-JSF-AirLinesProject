@@ -40,20 +40,6 @@ public class FlightServiceRest {
     private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT,
             Locale.US);
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String create(Flight flight) {
-        try {
-            service.create(flight);
-            return mapper.writeValueAsString("Flight Created!");
-        } catch (Exception ex) {
-            String date = df.format(new Date());
-            System.out.println(date);
-            return "Something went wrong, try again later!" + date;
-        }
-    }
-
     @Path("find")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -72,7 +58,7 @@ public class FlightServiceRest {
     public String update(Flight flight) {
         try {
             service.update(flight);
-            return mapper.writeValueAsString("Airport updated!");
+            return mapper.writeValueAsString("Flight updated!");
         } catch (Exception ex) {
             return "Something went wrong, try again later!";
         }
@@ -137,22 +123,26 @@ public class FlightServiceRest {
         }
     }
 
-    @Path("findbyarrival/{date}")
+    @Path("findbyarrival/{datePara}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbyarrival(@PathParam("date") Date date) {
+    public String findbyarrival(@PathParam("datePara") String datePara) {
         try {
+
+            Date date = df.parse(datePara.toString().replace("-", "/"));
+
             return mapper.writeValueAsString(service.findByArrival(date));
         } catch (Exception ex) {
             return "Something went wrong, try again later!";
         }
     }
 
-    @Path("findbydeparture/{date}")
+    @Path("findbydeparture/{datePara}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbydeparture(@PathParam("date") Date date) {
+    public String findbydeparture(@PathParam("datePara") String datePara) {
         try {
+            Date date = df.parse(datePara.toString().replace("-", "/"));
             return mapper.writeValueAsString(service.findByDeparture(date));
         } catch (Exception ex) {
             return "Something went wrong, try again later!";
@@ -163,8 +153,10 @@ public class FlightServiceRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbyarrivalbetween(@QueryParam("datetimeFrom") Date datetimeFrom, @QueryParam("datetimeTo") Date datetimeTo) {
+    public String findbyarrivalbetween(@QueryParam("datetimeFromPara") Date datetimeFromPara, @QueryParam("datetimeToPara") Date datetimeToPara) {
         try {
+            Date datetimeFrom = df.parse(datetimeFromPara.toString().replace("-", "/"));
+            Date datetimeTo = df.parse(datetimeToPara.toString().replace("-", "/"));
             return mapper.writeValueAsString(service.findByArrivalBetween(datetimeFrom, datetimeTo));
         } catch (Exception ex) {
             return "Something went wrong, try again later!";
@@ -175,8 +167,10 @@ public class FlightServiceRest {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String findbydeparturebetween(@QueryParam("datetimeFrom") Date datetimeFrom, @QueryParam("datetimeTo") Date datetimeTo) {
+    public String findbydeparturebetween(@QueryParam("datetimeFromPara") Date datetimeFromPara, @QueryParam("datetimeToPara") Date datetimeToPara) {
         try {
+            Date datetimeFrom = df.parse(datetimeFromPara.toString().replace("-", "/"));
+            Date datetimeTo = df.parse(datetimeToPara.toString().replace("-", "/"));
             return mapper.writeValueAsString(service.findByDepartureBetween(datetimeFrom, datetimeTo));
         } catch (Exception ex) {
             return "Something went wrong, try again later!";

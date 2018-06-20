@@ -1,0 +1,82 @@
+<!-- 
+* @author Prakash Rai 
+* Created On: June 18, 2018 
+* Description: Create Airline page
+ -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tp="http://java.sun.com/jsf/composite/airline">
+<h:head>
+	<title><h:outputText value="Airlines" /></title>
+	<!-- bootstrap -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</h:head>
+
+<h:body>
+	<div class="container">
+		<!-- Header -->
+		<nav class="navbar navbar-light bg-light justify-content-between">
+		<a class="navbar-brand">Airlines</a> <h:form class="form-inline">
+			<h:inputText id="inputName" value="#{airlineBean.searchText}"
+				class="form-control mr-sm-2"></h:inputText>
+			<h:commandButton value="Search"
+				class="btn btn-outline-success my-2 my-sm-0">
+				<f:ajax execute="inputName" render=":outputMessage" />
+			</h:commandButton>
+		</h:form> </nav>
+		<div class="card">
+			<div class="card-header">
+				Airline Details for #{airlineBean.airline.name}
+				<h:link value="Back to List" outcome="airlines"
+					class="btn btn-primary" style="float:right; margin: 20px;" />
+			</div>
+			<h:dataTable value="#{airlineBean.airline.flights}" var="flight"
+				id="airList" styleClass="table">
+				<h:column>
+					<f:facet name="header">Flight Number</f:facet> #{flight.flightnr}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Departure Date</f:facet>
+						#{flight.departureDate}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Departure Time</f:facet>
+						#{flight.departureTime}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Arrival Date</f:facet> #{flight.arrivalDate}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Arrival Time</f:facet>
+						#{flight.arrivalTime}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Airline</f:facet>
+						#{flight.airline.name}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Origin</f:facet>
+						#{flight.origin.name}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">Destination</f:facet>
+						#{flight.destination.name}
+					</h:column>
+			</h:dataTable>
+		</div>
+	</div>
+</h:body>
+</html>

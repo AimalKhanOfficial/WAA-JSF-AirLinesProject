@@ -1,0 +1,50 @@
+<!-- 
+* @author Prakash Rai 
+* Created On: June 18, 2018 
+* Description: Create Airline page
+ -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tp="http://java.sun.com/jsf/composite/airline">
+<h:head>
+	<title><h:outputText value="Airlines" /></title>
+
+	<!-- bootstrap -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+
+</h:head>
+
+<h:body>
+	<div class="container">
+		<!-- Header -->
+		<nav class="navbar navbar-light bg-light justify-content-between">
+			<a class="navbar-brand">Airlines</a>
+			<h:form class="form-inline">
+				<h:inputText id="inputName" value="#{airlineBean.searchText}"  class="form-control mr-sm-2"></h:inputText>
+				<h:commandButton value="Search" class="btn btn-outline-success my-2 my-sm-0">
+					<f:ajax execute="inputName" render=":outputMessage" />
+				</h:commandButton>
+			</h:form>
+		</nav>
+		
+		<h:form>
+			<h:link value = "Back to List" outcome = "airlines" class="btn btn-primary" style="float:right; margin: 20px;"/>
+			<tp:createAirlineComponent 
+				airlineNameLabel="Airline Name: "
+				airlineNameValue="#{airlineBean.airline.name}"
+				airlineButtonLabel="Create"
+				airlineAddButtonAction="#{airlineBean.create()}" />
+		</h:form>
+		
+		<h2>
+			<h:outputText id="outputMessage" value="#{airlineBean.searchText}" />
+		</h2>
+	</div>
+</h:body>
+</html>

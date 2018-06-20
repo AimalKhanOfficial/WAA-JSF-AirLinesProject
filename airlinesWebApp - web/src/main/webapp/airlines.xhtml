@@ -10,15 +10,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:tp = "http://java.sun.com/jsf/composite/airline">
+	xmlns:tp="http://java.sun.com/jsf/composite/airline">
 <h:head>
-	<title><h:outputText value="#{msg.welcomeTitle}" /></title>
+	<title><h:outputText value="Airlines" /></title>
 
 	<!-- bootstrap -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 
-	<!-- font awesome -->
-	<link rel="stylesheet" href="https://use.fontaweacsome.com/releases/v5.0.13/css/all.css" />
 </h:head>
 
 <h:body>
@@ -26,15 +25,22 @@
 		<!-- Header -->
 		<nav class="navbar navbar-light bg-light justify-content-between">
 		<a class="navbar-brand">Airlines</a>
-		<form class="form-inline">
-			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</form>
+
+		<h:form class="form-inline">
+			<h:inputText id="inputName" value="#{airlineBean.searchText}"  class="form-control mr-sm-2"></h:inputText>
+			<h:commandButton value="Search" class="btn btn-outline-success my-2 my-sm-0">
+				<f:ajax execute="inputName" render=":outputMessage" />
+			</h:commandButton>
+		</h:form>
+
 		</nav>
 		<f:view>
 			<h:form>
+			
+				<h:link value = "Create New Airline" outcome = "createAirline" class="btn btn-primary" style="float:right; margin: 20px;"/>
 				<!-- Data table for rendering airlines -->
-				<h:dataTable value="#{airlineBean.airlines}" var="air" id="airList" styleClass="table">
+				<h:dataTable value="#{airlineBean.airlines}" var="air" id="airList"
+					styleClass="table">
 					<h:column>
 						<f:facet name="header">Airline ID</f:facet> #{air.id}
 					</h:column>
@@ -49,22 +55,18 @@
 						<h:column>
 							<f:facet name="header">Action</f:facet>
 							<h:commandButton value="Save" action="#{airlineBean.edit(air)}"></h:commandButton>
-							<h:commandButton value="Delete" action="#{airlineBean.delete(air.id)}"></h:commandButton>
+							<h:commandButton value="Delete"
+								action="#{airlineBean.delete(air.id)}"></h:commandButton>
+							<h:commandButton value="Details" action="#{airlineBean.details(air)}"></h:commandButton>
 						</h:column>
 					</h:column>
 				</h:dataTable>
 			</h:form>
 		</f:view>
-		<h:form>
-		 
-         <tp:createAirlineComponent 
-         airlineNameLabel = "Airline Name: " 
-         airlineNameValue = "#{airlineBean.airline.name}" 
-         airlineButtonLabel = "Create" 
-         airlineAddButtonAction = "#{airlineBean.create()}" />
-         
-      </h:form> 
-
+		
+		<h2>
+			<h:outputText id="outputMessage" value="#{airlineBean.searchText}" />
+		</h2>
 	</div>
 </h:body>
 </html>

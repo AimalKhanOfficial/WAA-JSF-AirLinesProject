@@ -20,51 +20,128 @@ import cs545.airline.service.AirlineService;
 @SessionScoped
 public class AirlineBean implements Serializable {
 
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private static final long serialVersionUID = 1L;
 
+	/********************Injecting airline service***************************************************************/
 	@Inject
 	private AirlineService airlineService;
-	private Airline airline=new Airline("Emirates");
+	
+	/********************Airline object: used to refer airline while saving and editing**************************/
+	private Airline airline = new Airline();
+	
+	/********************Airline list: used for listing airlines*************************************************/
 	private List<Airline>airlines=new ArrayList<>();
-	private long airlineId;
+	
+	/************************************Search String*****************************************/
+	private String searchText;
 
-	public String edit(long id) {
-		System.out.println("<------------------Edit Airline------------------->");
-//		this.airline.setId(id);
-//		Airline obj = this.airlineService.find(this.airline);
-//		obj.setName(this.airline.getName());
-//		System.out.println("Id : " + obj.getId() + ", Airline : " + obj.getName());
-//		this.airlineService.update(obj);
+	/*
+	 * Search text getter
+	*/
+	public String getSearchText() {
+		return searchText;
+	}
+
+	/*
+	 * Search text setter
+	*/
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
+	
+	/*
+	 * Method to search airline
+	 * Output : searched airlines
+	*/
+	public void searchAirline() {
+		System.out.println("--------------------------------Search Text--------------> " + searchText);
+		this.searchText = "Here in search ..";
+//		if(searchText != null || searchText != "")
+//		{
+//			this.airlines = this.airlineService.search(searchText);
+//			System.out.println("airlines-----------------" + airlines.size());
+//		}
+	}
+	
+	/*
+	 * Method to edit airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
+	public String edit(Airline airline) {
+		this.airlineService.update(airline);
+		this.airline = new Airline();
 		return "airlines";
 	}
 	
+	/*
+	 * Details method page
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
+	public String details(Airline air) {
+		this.airline = air;
+		return "airlineDetails";
+	}
+	
+	/*
+	 * Method to delete airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
+	public String delete(long id) {
+		Airline airline = this.airlineService.findById(id);
+		this.airlineService.delete(airline);
+		return "airlines";
+	}
+	
+	/*
+	 * Method to create airline
+	 * Input parameter : Airline object
+	 * Output : view name
+	*/
 	public String create() {
-		System.out.println("<------------------Create Airline------------------->");
 		this.airlineService.create(airline);
+		this.airline = new Airline();
 		return "airlines";
 	}
 	
-	public AirlineService getAirlineService() {
-		return airlineService;
-	}
-
-	public void setAirlineService(AirlineService airlineService) {
-		this.airlineService = airlineService;
-	}
-
+	/*
+	 * airline getter
+	*/
 	public Airline getAirline() {
 		return airline;
 	}
 
+	/*
+	 * airline setter
+	*/
 	public void setAirline(Airline airline) {
 		this.airline = airline;
 	}
 
+	/*
+	 * airline list getter
+	*/
 	public List<Airline> getAirlines() {
 		airlines=airlineService.findAll();
+		airline = new Airline();
 		return airlines;
 	}
 
+	/*
+	 * airline list setter
+	*/
 	public void setAirlines(List<Airline> airlines) {
 		this.airlines = airlines;
 	}

@@ -1,5 +1,6 @@
 package cs545.airline.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,6 +38,10 @@ public class AirlineService {
 	public Airline find(Airline airline) {
 		return airlineDao.findOne(airline.getId());
 	}
+	
+	public Airline findById(long id) {
+		return airlineDao.findOne(id);
+	}
 
 	public Airline findByName(String name) {
 		return airlineDao.findOneByName(name);
@@ -44,6 +49,19 @@ public class AirlineService {
 
 	public List<Airline> findByFlight(Flight flight) {
 		return airlineDao.findByFlight(flight.getId());
+	}
+	
+	public List<Airline> search(String searchString) {
+		List<Airline> airlines = new ArrayList<Airline>(); 
+		List<Airline> airs = this.findAll();
+		for(Airline air : airs) {
+			if(air.getName().contains(searchString)) {
+				System.out.println("Searched--------------->" + air.getName());
+				airlines.add(air);
+			}
+		}
+		
+		return airlines;
 	}
 
 	public List<Airline> findAll() {

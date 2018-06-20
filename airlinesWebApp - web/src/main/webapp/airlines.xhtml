@@ -54,7 +54,9 @@
 						<f:facet name="header">Operation</f:facet>
 						<h:column>
 							<f:facet name="header">Action</f:facet>
-							<h:commandButton value="Save" action="#{airlineBean.edit(air)}"></h:commandButton>
+							<h:commandButton value="Save" >
+								<f:ajax execute = "@form" render = "airList" listener="#{airlineBean.edit(air)}"/>
+							</h:commandButton>
 							<h:commandButton value="Delete"
 								action="#{airlineBean.delete(air.id)}"></h:commandButton>
 							<h:commandButton value="Details" action="#{airlineBean.details(air)}"></h:commandButton>
